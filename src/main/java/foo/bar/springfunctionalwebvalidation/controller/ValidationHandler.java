@@ -27,7 +27,7 @@ public class ValidationHandler {
                 .flatMap(
                         body -> validator.validate(body).isEmpty()
                                 ? block.apply(Mono.just(body))
-                                : ServerResponse.badRequest().build()
+                                : ServerResponse.unprocessableEntity().build()
                 );
     }
 }

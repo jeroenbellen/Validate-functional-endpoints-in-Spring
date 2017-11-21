@@ -9,16 +9,15 @@ import javax.validation.Validator;
 import java.util.function.Function;
 
 @Component
-public class ValidationHandler {
-
+public class RequestHandler {
 
     private final Validator validator;
 
-    public ValidationHandler(Validator validator) {
+    public RequestHandler(Validator validator) {
         this.validator = validator;
     }
 
-    public <BODY> Mono<ServerResponse> validBody(
+    public <BODY> Mono<ServerResponse> requireValidBody(
             Function<Mono<BODY>, Mono<ServerResponse>> block,
             ServerRequest request, Class<BODY> bodyClass) {
 

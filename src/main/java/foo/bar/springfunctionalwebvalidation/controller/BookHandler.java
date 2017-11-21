@@ -17,11 +17,11 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 public class BookHandler {
 
     private final BookRepo bookRepo;
-    private final ValidationHandler validationHandler;
+    private final RequestHandler requestHandler;
 
-    public BookHandler(BookRepo bookRepo, ValidationHandler validationHandler) {
+    public BookHandler(BookRepo bookRepo, RequestHandler requestHandler) {
         this.bookRepo = bookRepo;
-        this.validationHandler = validationHandler;
+        this.requestHandler = requestHandler;
     }
 
     public Mono<ServerResponse> getBooks(ServerRequest request) {
@@ -32,7 +32,7 @@ public class BookHandler {
 
     public Mono<ServerResponse> addBook(ServerRequest request) {
 
-        return validationHandler.validBody(body -> {
+        return requestHandler.requireValidBody(body -> {
             Mono<Book> bookMono = body.map(addBook -> Book.of(addBook.getTitle(), addBook.getAuthor()));
 
             return bookRepo.insert(bookMono)
